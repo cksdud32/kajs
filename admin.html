@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>관리자 페이지</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      text-align: center;
+      background-color: #f0f0f5;
+    }
+    h2, h3 {
+      color: #333;
+    }
+    .birthday-item {
+      margin: 10px auto;
+      padding: 10px;
+      width: 80%;
+      max-width: 600px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      background: #fff;
+      text-align: left;
+    }
+    .comment-item {
+      margin-left: 20px;
+      padding: 5px;
+      border-top: 1px dashed #ccc;
+    }
+    button {
+      margin-top: 10px;
+      padding: 6px 12px;
+      font-size: 14px;
+      border: none;
+      background-color: #cc0000;
+      color: white;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #990000;
+    }
+    .comment-delete-btn {
+      background-color: #888;
+      margin-left: 10px;
+    }
+    #logout {
+      background-color: #555;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 메인으로 버튼 -->
+  <div style="text-align: right; margin-bottom: 10px;">
+    <a href="/" style="
+      background-color: #28a745;
+      color: white;
+      padding: 8px 14px;
+      border-radius: 6px;
+      text-decoration: none;
+      font-size: 14px;
+    ">🏠 메인으로</a>
+  </div>
+
+  <h2>🎛 관리자 패널</h2>
+  <div id="birthdayList">불러오는 중...</div>
+  <button id="logout" onclick="logout()">🚪 로그아웃</button>
+
+  <script>
+    function loadAllBirthdays() {
+      fetch('/api/birthdays')
+        .then(res => res.json())
+        .then(data => {
+          const list = document.getElementById('birthdayList');
+          list.innerHTML = '';
+          if (data.length === 0) {
+            list.innerHTML = '<p>등록된 생일이 없습니다.</p>';
+            return;
+          }
+
+          data.forEach(b => {
+            const div = document.createElement('div');
+            div.className = 'birthday-item';
+            div.innerHTML = `
+              <strong>${b.date} - ${b.name}</strong><br />
+              <em>${b.message}</em><br />
+              <button onclick="deleteBirthday('${b.date}')">생일 삭제</button>
+              <div id="comments-${b.date}"><em>댓글 불러오는 중...</em></div>
+            `;
+            list.appendChild(div);
+            loadCommentsFor(b.date);
+          });
+        });
+    }
+
+    function deleteBirthday(date) {
+      if (!confirm(`${date} 생일을 정말 삭제하시겠습니까?`)) return;
+      fetch(`/admin/birthday/${date}`, {
+        method: 'DELETE',
+        credentials: 'include'
+      })
+        .then(res => res.json())
+        .then(data => {
+          if (data.success) {
+            alert('✅ 생일 삭제 완료');
+            loadAllBirthdays();
+          } else {
+            alert('❌ 삭제 실패: ' + data.error);
+          }
+        });
+    }
+
+    function loadCommentsFor(date) {
+      fetch(`/api/comments/${date}`)
+        .then(res => res.json())
+        .then(comments => {
+          const container = document.getElementById(`comments-${date}`);
+          if (!comments.length) {
+            container.innerHTML = `<div class="comment-item"><em>댓글 없음</em></div>`;
+            return;
+          }
+
+          container.innerHTML = `<h4>💬 댓글 목록:</h4>`;
+          comments.forEach(comment => {
+            const div = document.createElement('div');
+            div.className = 'comment-item';
+            div.innerHTML = `
+              <strong>${comment.name}</strong>: ${comment.text}
+              <button class="comment-delete-btn" onclick="deleteComment(${comment.id}, '${date}')">삭제</button>
+            `;
+            container.appendChild(div);
+          });
+        });
+    }
+
+    function deleteComment(id, date) {
+      if (!confirm('이 댓글을 삭제하시겠습니까?')) return;
+
+fetch(`/admin/comment/${id}`, {
+  method: 'DELETE',
+  credentials: 'include', // ✅ 쿠키 포함
+})
+        .then(res => res.json())
+        .then(data => {
+          if (data.success) {
+            alert('✅ 댓글 삭제 완료');
+            loadCommentsFor(date);
+          } else {
+            alert('❌ 삭제 실패: ' + data.error);
+          }
+        });
+    }
+
+    function logout() {
+      fetch('/api/admin/logout', { method: 'POST' })
+        .then(() => {
+          alert('👋 로그아웃되었습니다.');
+          location.href = '/';
+        });
+    }
+
+    // 관리자 인증 확인
+    if (!document.cookie.includes('admin_auth=true')) {
+      alert('⚠️ 관리자 로그인 필요');
+      window.location.href = '/admin/login';
+    } else {
+      loadAllBirthdays();
+    }
+  </script>
+</body>
+</html>

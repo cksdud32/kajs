@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>관리자 로그인</title>
+    <div style="text-align: right; margin-bottom: 10px;">
+    <a href="/" style="
+      background-color: #28a745;
+      color: white;
+      padding: 8px 14px;
+      border-radius: 6px;
+      text-decoration: none;
+      font-size: 14px;
+    ">🏠 메인으로</a>
+  </div>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin-top: 100px;
+      background-color: #f4f6fa;
+    }
+    h2 {
+      color: #333;
+    }
+    input, button {
+      padding: 10px;
+      font-size: 16px;
+      margin: 8px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+    button {
+      background-color: #3333cc;
+      color: white;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #5555ee;
+    }
+    #message {
+      margin-top: 15px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <h2>🔐 관리자 로그인</h2>
+  <input id="username" placeholder="관리자 아이디" /><br />
+  <input id="password" type="password" placeholder="비밀번호" /><br />
+  <button onclick="login()">로그인</button>
+  <div id="message"></div>
+
+  <script>
+    function login() {
+      const username = document.getElementById('username').value.trim();
+      const password = document.getElementById('password').value.trim();
+
+  fetch('/api/admin/login', {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  credentials: 'include',  // ✅ 쿠키 저장을 위해 필요함
+  body: JSON.stringify({ username, password })
+})
+
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          document.getElementById('message').innerText = '✅ 로그인 성공! 메인으로 이동 중...';
+          setTimeout(() => window.location.href = '/admin', 1000);
+        } else {
+          document.getElementById('message').innerText = '❌ 로그인 실패. 아이디 또는 비밀번호 확인';
+        }
+      });
+    }
+  </script>
+</body>
+</html>

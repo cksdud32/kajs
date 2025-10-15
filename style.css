@@ -1,0 +1,399 @@
+@charset "utf-8";
+
+*{
+  font-family: "굴림", Arial;
+}
+
+body {
+  font-family: 'Arial', sans-serif;
+  background-color: #f0f8ff;
+  padding: 20px;
+  text-align: center;
+}
+
+h2, h3, h4 {
+  color: #3333cc;
+}
+
+h5{
+text-align: center;
+  width: 100%;
+  margin-top: 10px;
+}
+
+#upcoming {
+  border: 1px solid #ddd;
+  padding: 12px;          
+  border-radius: 8px;
+  margin-bottom: 20px;
+  background-color: #fafafa;
+  max-width: 300px;      
+  margin-left: auto;      
+  margin-right: auto;
+  font-size: 0.9rem;     
+}
+
+#upcoming h4 {
+  margin: 0 0 10px;
+  font-size: 1.1em;
+  color: #333;
+}
+
+#upcoming .upcoming-list {
+  max-height: 180px;      
+  overflow-y: auto;       
+  padding-right: 8px;     
+}
+
+#upcoming .upcoming-list div {
+  padding: 6px 4px;      
+  border-bottom: 1px dashed #ccc;
+  font-size: 0.85em;      
+  color: #555;
+}
+
+.modal {
+  position: fixed;
+  top: 0; left: 0; right:0; bottom:0;
+  background-color: rgba(0,0,0,0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+  
+}
+
+.modal-content {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  max-width: 260px;
+  width: 90%;
+}
+
+.calendar-modal-content {
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  width: 600px;
+  max-height: 90vh;
+  overflow-y: auto;
+  position: relative;
+}
+
+.calendar-day.today {
+  border: 2px solid #ff4500;
+  background-color: #fff0e6;
+  font-weight: bold;
+  color: #d14400;
+}
+
+.calendar-modal-content .close {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  font-size: 28px;
+  cursor: pointer;
+  
+}
+
+.xlz{
+width: 100px; height: 100px ;
+background-color: coral;
+z-index: 1000;
+
+}
+
+#calendar {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4px;
+  text-align: center;
+  margin-top: 10px;
+  
+}
+
+#calendar div {
+  padding: 15px 10px;    
+  min-height: 80px;        
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  cursor: default;
+  font-size: 14px;         
+  text-align: left;        
+  display: flex;
+  flex-direction: column;  
+  justify-content: flex-start;
+}
+
+.asa{
+  color: #dd3535;
+  font-size: 14px;
+}
+#calendar .has-birthday {
+  background-color: #fff4d6;
+  font-weight: bold;
+  color: #d17a00;
+}
+
+.hidden {
+  display: none;
+}
+
+#upcoming .upcoming-list div:last-child {
+  border-bottom: none;
+}
+
+#upcoming .upcoming-list p {
+  margin: 0;
+  color: #999;
+}
+
+
+.admin-login-button {
+  text-align: right;
+  margin: 10px;
+}
+
+.btn-admin-login {
+  background-color: #007bff;
+  color: white;
+  padding: 8px 14px;
+  border-radius: 6px;
+  text-decoration: none;
+  font-size: 14px;
+}
+
+.btn-admin-login:hover {
+  background-color: #0056b3;
+}
+
+.tooltip {
+  cursor: help;
+  color: #666;
+}
+
+.tooltip-icon {
+  cursor: pointer;
+  text-decoration: underline dotted;
+  color: #007bff;
+margin-right: 10px;  
+  cursor: pointer;
+  
+}
+
+.ryu814{
+  font-size: 20px; color: #333;
+  margin-top: 20px;
+}
+
+.ryu{
+  margin-top: -17px;
+}
+.tooltip-box {
+  position: fixed;
+  top: 20%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #fefefe;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  width: 90%;
+  max-width: 400px;
+  z-index: 1000;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+  font-size: 14px;
+  line-height: 1.5;
+  
+}
+
+.tooltip-box button {
+  margin-top: 10px;
+  padding: 5px 10px;
+  font-size: 13px;
+  background: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.hidden {
+  display: none;
+}
+
+.input-area {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.input-with-scroll {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: max-content;          
+  max-width: 500px;     
+}
+
+input, button, textarea {
+  font-size: 16px;
+  border-radius: 8px;
+  margin: 5px;
+  box-sizing: border-box;
+}
+
+input, textarea {
+  padding: 10px;
+  border: 2px solid #888;
+}
+
+button {
+  padding: 10px 20px;
+  border: none;
+  background-color: #3333cc;
+  color: white;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #5555ee;
+}
+
+#birthdaysList {
+  width: 300px;
+  max-height: 120px;
+  overflow-y: auto;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 8px;
+  margin-top: 10px;
+  text-align: left;
+}
+
+#result {
+  margin-top: 20px;
+  font-size: 18px;
+  color: #222;
+  white-space: pre-line;
+  border: 2px solid #ede0ff;
+  background-color: #edd1ff;
+  border-radius: 8px;
+  padding: 10px;
+  max-width: 500px;
+  margin-left: auto;
+  margin-right: auto;
+  display: none;
+  position: relative;
+}
+
+.input-group {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 10px;
+  margin-bottom: 20px;
+}
+
+.input-group input {
+  width: 165px;
+}
+
+#addError {
+  color: red;
+  font-size: 14px;
+  width: 100%;
+  text-align: center;
+}
+
+#commentSection {
+  margin-top: 10px;
+  display: none;
+
+}
+.comment-btn {
+  font-size: 0.8rem;     
+  padding: 2px 6px;       
+  margin-left: 4px;
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+}
+
+.comment-btn:hover {
+  background-color: #eee;
+  border-radius: 4px;
+}
+
+#commentBox {
+  margin-top: 10px;
+  padding: 10px;
+  background-color: #fff;
+  border: 1px solid #aaa;
+  border-radius: 8px;
+  max-width: 500px;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: left;
+    max-height: 240px;
+  overflow-y: auto;
+}
+
+.comment {
+  margin-bottom: 8px;
+  font-size: 16px;
+}
+
+.comment-btn {
+  font-size: 12px;
+  padding: 2px 6px;
+  margin-left: 6px;
+  background-color: #ddd;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.comment-btn:hover {
+  background-color: #bbb;
+}
+
+#commentError {
+  color: red;
+  font-size: 14px;
+  margin-top: 10px;
+}
+
+@media (max-width: 480px) {
+  .input-area {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .input-group {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .input-group input {
+    width: 40%; /* ✅ 아래쪽 입력창만 약간 좁게 조절 */
+    margin: 0 auto; /* 가운데 정렬 */
+  }
+
+  #result,
+  #commentBox {
+    width: 95%;
+  }
+}
+.cpflemf{
+  color: blue;
+  text-shadow: 1px 1px 1px #333;
+  font-size: 17px;
+   
+}

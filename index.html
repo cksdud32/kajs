@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <title>생일 확인(개발중)</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+<span class="tooltip-icon" onclick="toggleTooltip('Notice')">📢 공지사항</span>
+<div id="Notice" class="tooltip-box hidden">
+  주말에 임시로 열어둔것뿐이라 주말 끝나면 사이트 닫아둡니다.:><br>
+  임시 서버이기에 서버가 불안정할수 있습니다. <br><br>
+   오류때문에 생일 수정/삭제가 안돼요 <br>
+    삭제 하고 싶으시면 저한테 DM주세여<br>
+    수정은 저도 못하니 DM 주시면 생일 삭제해드릴게요. <br> <br>
+    (근데 생일 확인 사이트라고는 하는데 <br>그냥 체리를 위한 사이트가 되버려..)<br>
+  <button onclick="toggleTooltip('Notice')">닫기</button>
+</div>
+
+<a href="https://youtu.be/c0fOKDfroMw?si=0L3PJUngrL6JX2qi" target="_blank">메리골드</a> &nbsp
+
+<span class="tooltip-icon" onclick="toggleTooltip('tooltipBox')">🛈 안내창</span>
+<div id="tooltipBox" class="tooltip-box hidden">
+  문의는 인스타 찬영(cksdud3)으로 해주세요 :)<br><br>
+  이 웹사이트는 혼자 개발, 공부하기 위해 만들었습니다.<br>
+  체리분들이 많이 이용해주실수록 공부하는데 도움이 됩니다.<br>
+  추가, 개선사항은 언제나 말해주세요.<br>
+  많이많이 이용해주세요 :> 생일 확인? 사이트라 할게 없지만요..<br>
+  언제나 감사하고 사랑합니다 :>
+  <button onclick="toggleTooltip('tooltipBox')">닫기</button>
+</div>
+
+<h4></h4>
+  
+<div id="upcoming" class="upcoming-container">
+  <h4>🎉 다가오는 생일</h4>
+  <div class="upcoming-list"></div>
+</div>
+
+
+<button onclick="openCalendarModal()">🎉 달력 보기</button>
+
+
+  <h2>🎂 알고 싶은 생일을 입력/선택해주세요 🎂</h2> 
+
+  <div class="input-area">
+    <div class="input-with-scroll">
+      <input
+        type="text"
+        id="birthdayInput"
+        placeholder="예: 6월1일"
+        onkeydown="if(event.key === 'Enter') checkBirthday();"
+      />
+      <button onclick="checkBirthday()">확인</button>
+    </div>
+    <div id="birthdaysList" title="등록된 생일 목록"></div>
+  </div>
+
+  <!-- ✅ 관리자 로그인 버튼 -->
+  <div class="admin-login-button">
+    <a href="/admin/login" class="btn-admin-login">🔐 관리자 로그인</a>
+  </div>
+
+  <h2>🎁 새로운 생일 추가하기</h2>
+  <div class="input-group">
+    <input type="text" id="newBirthday" placeholder="예: 6월1일" />
+    <input type="text" id="newName" placeholder="이름 입력" />
+    <input type="text" id="newMessage" placeholder="간단한 메시지 입력" />
+    <input type="password" id="newPassword" placeholder="비밀번호 입력" />
+    <button onclick="addBirthday()">추가</button>
+    <div id="addError"></div>
+  </div>
+
+  <div id="result"></div>
+
+  <div id="commentSection">
+    <h3>🎉 생일 축하 댓글 달기</h3>
+    <input type="text" id="commentName" placeholder="이름 입력" />
+    <input type="text" id="commentInput" placeholder="간단한 축하 메시지를 입력하세요" style="width: 300px;" />
+    <input type="password" id="commentPassword" placeholder="비밀번호 입력" />
+    <button onclick="addComment()">등록</button>
+    <div id="commentError"></div>
+  </div>
+
+  <div id="comments"></div>
+  <div id="commentBox">
+    <strong>💬 댓글 목록:</strong>
+    <ul id="comment-list"></ul>
+  </div>
+
+
+<div id="birthdayModal" class="modal hidden">
+  <div class="modal-content">
+    <h3>같은 날짜에 등록된 분들입니다. 선택해주세요.</h3>
+    <ul id="birthdaySelectList"></ul>
+    <button onclick="closeModal()">닫기</button>
+  </div>
+</div>
+
+<div id="calendarModal" class="modal hidden">
+  <div class="calendar-modal-content">
+    <span class="close" onclick="closeCalendarModal()">&times;</span>
+    <h3 id="calendarMonthTitle">🎉 생일 달력</h3>
+    <div id="calendar"></div>
+  </div>
+</div>
+    
+  </div>
+  
+  <h2 class="ryu814">언제까지나 난 너를</h2><div class="ryu"><input type="text" id="ryu814" placeholder="3글자로 적어주세요" /></div>
+  <button onclick="saveRyu()">등록</button>
+
+<button onclick="loadRyu()">불러오기</button>
+<ul id="ryuList"></ul>
+<h5 class="asa">이상한거 적을시 삭제합니다.</h5>
+<a href="ias.html" >준님 노래방 번호 정리</a>
+  <script src="script.js"></script>
+</body>
+<script type="module">
+  // Import the functions you need from the SDKs you need
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
+  import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-analytics.js";
+  // TODO: Add SDKs for Firebase products that you want to use
+  // https://firebase.google.com/docs/web/setup#available-libraries
+
+  // Your web app's Firebase configuration
+  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+  const firebaseConfig = {
+    apiKey: "AIzaSyCY76HB0ghdTXDcPvYRd1x8wf95lZ3iifY",
+    authDomain: "birthday-87a80.firebaseapp.com",
+    databaseURL: "https://birthday-87a80-default-rtdb.firebaseio.com",
+    projectId: "birthday-87a80",
+    storageBucket: "birthday-87a80.firebasestorage.app",
+    messagingSenderId: "843667843214",
+    appId: "1:843667843214:web:e7e7d5de719ae87438c1df",
+    measurementId: "G-G638ED33XG"
+  };
+
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+  const analytics = getAnalytics(app);
+</script>
+</html>
